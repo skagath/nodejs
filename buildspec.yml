@@ -5,7 +5,7 @@ phases:
     commands:
       - echo Logging in to Amazon ECR...
       - aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 058264161091.dkr.ecr.us-east-1.amazonaws.com
-      - REPOSITORY_URI=058264161091.dkr.ecr.us-east-1.amazonaws.com/node-js:latest
+      - REPOSITORY_URI=058264161091.dkr.ecr.us-east-1.amazonaws.com/node-js
       - echo $REPOSITORY_URI
   build:
     commands:
@@ -19,3 +19,6 @@ phases:
       - echo Pushing the Docker image...
       - docker push $REPOSITORY_URI:latest
       - docker push $REPOSITORY_URI:$CODEBUILD_RESOLVED_SOURCE_VERSION
+artifacts:
+  files:
+    - '**/*'
