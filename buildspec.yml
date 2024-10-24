@@ -5,7 +5,7 @@ phases:
     commands:
       - echo Logging in to Amazon ECR...
       - aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 471112537132.dkr.ecr.us-east-1.amazonaws.com
-      - REPOSITORY_URI=471112537132.dkr.ecr.us-east-1.amazonaws.com/nodejs
+      - REPOSITORY_URI=637423443295.dkr.ecr.us-east-1.amazonaws.com/nodejs
       - echo $REPOSITORY_URI
   build:
     commands:
