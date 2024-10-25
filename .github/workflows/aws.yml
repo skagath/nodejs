@@ -28,14 +28,14 @@ on:
     branches: [ "main" ]
 
 env:
-  AWS_REGION: us-east-1             # set this to your preferred AWS region, e.g. us-west-1
-  ECR_REPOSITORY: nodejs         # set this to your Amazon ECR repository name
-  ECS_SERVICE: svc-node-app                 # set this to your Amazon ECS service name
-  ECS_CLUSTER: node-app                # set this to your Amazon ECS cluster name
-  ECS_TASK_DEFINITION: node1 # set this to the path to your Amazon ECS task definition
-                                               # file, e.g. .aws/task-definition.json
-  CONTAINER_NAME: nodejs         # set this to the name of the container in the
-                                               # containerDefinitions section of your task definition
+  AWS_REGION: us-east-1             
+  ECR_REPOSITORY: nodejs         
+  ECS_SERVICE: svc-node-app                
+  ECS_CLUSTER: node-app                
+  ECS_TASK_DEFINITION: node1.json 
+                                               
+  CONTAINER_NAME: nodejs         
+                                              
 
 permissions:
   contents: read
