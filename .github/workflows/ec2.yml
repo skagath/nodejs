@@ -30,9 +30,13 @@ jobs:
 
       # Build Docker image
       - name: Build Docker image
+        env:
+              IMAGE_TAG: ${{ github.sha }}
         run: |
-         docker build -t ${{ secrets.ECR_REPO_URI }}/${{ secrets.ECR_REPO }}:${{ github.sha }} .
+         docker build -t ${{ secrets.ECR_REPO_URI }}/${{ secrets.ECR_REPO }}:$IMAGE_TAG .
 
+        
+      
       # Log in to Amazon ECR
       - name: Log in to Amazon ECR
         run: |
@@ -42,7 +46,8 @@ jobs:
       # Push Docker image to ECR
       - name: Push Docker image to ECR
         run: |
-          docker push ${{ secrets.ECR_REPO_URI }}/${{ secrets.ECR_REPO }}:${{ github.sha }}
+          docker push ${{ secrets.ECR_REPO_URI }}/${{ secrets.ECR_REPO }}:$IMAGE_TAG
+          echo "image=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
 
   deploy:
     needs: build
@@ -54,10 +59,10 @@ jobs:
         run: |
           echo "Deploying to EC2"
           ssh -o StrictHostKeyChecking=no -i ${{ secrets.EC2_SSH_KEY }} ec2-user@${{ secrets.EC2_PUBLIC_IP }} <<EOF
-            docker pull ${{ secrets.ECR_REPO_URI }}:${{ github.sha }}
+            docker pull ${{ secrets.ECR_REPO_URI }}:$IMAGE_TAG
             docker stop node-app || true
             docker rm node-app || true
-            docker run -d --name node-app -p 3000:3000 ${{ secrets.ECR_REPO_URI }}:${{ github.sha }}
+            docker run -d --name node-app -p 3000:3000 ${{ secrets.ECR_REPO_URI }}:$IMAGE_TAG
           EOF
         env:
           EC2_SSH_KEY: ${{ secrets.EC2_SSH_KEY }}
