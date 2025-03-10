@@ -31,7 +31,7 @@ jobs:
       # Build Docker image
       - name: Build Docker image
         run: |
-          docker build -t ${{ secrets.ECR_REPO_URI }}:${{ github.sha }} .
+         docker build -t ${{ secrets.ECR_REPO_URI }}/${{ secrets.ECR_REPO }}:${{ github.sha }} .
 
       # Log in to Amazon ECR
       - name: Log in to Amazon ECR
@@ -42,7 +42,7 @@ jobs:
       # Push Docker image to ECR
       - name: Push Docker image to ECR
         run: |
-          docker push ${{ secrets.ECR_REPO_URI }}:${{ github.sha }}
+          docker push ${{ secrets.ECR_REPO_URI }}/${{ secrets.ECR_REPO }}:${{ github.sha }}
 
   deploy:
     needs: build
