@@ -28,26 +28,24 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-east-1  # or use ${{ secrets.AWS_REGION }}
 
+      # Set IMAGE_TAG environment variable for the Docker image tag
+      - name: Set IMAGE_TAG environment variable
+        run: echo "IMAGE_TAG=${{ github.sha }}" >> $GITHUB_ENV
+
       # Build Docker image
       - name: Build Docker image
-        env:
-              IMAGE_TAG: ${{ github.sha }}
         run: |
-         docker build -t ${{ secrets.ECR_REPO_URI }}/${{ secrets.ECR_REPO }}:$IMAGE_TAG .
+          docker build -t ${{ secrets.ECR_REPO_URI }}/${{ secrets.ECR_REPO }}:${{ env.IMAGE_TAG }} .
 
-        
-      
       # Log in to Amazon ECR
       - name: Log in to Amazon ECR
         run: |
-          aws --version
           aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin ${{ secrets.ECR_REPO_URI }}
 
       # Push Docker image to ECR
       - name: Push Docker image to ECR
         run: |
-          docker push ${{ secrets.ECR_REPO_URI }}/${{ secrets.ECR_REPO }}:$IMAGE_TAG
-          echo "image=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
+          docker push ${{ secrets.ECR_REPO_URI }}/${{ secrets.ECR_REPO }}:${{ env.IMAGE_TAG }}
 
   deploy:
     needs: build
@@ -59,10 +57,10 @@ jobs:
         run: |
           echo "Deploying to EC2"
           ssh -o StrictHostKeyChecking=no -i ${{ secrets.EC2_SSH_KEY }} ec2-user@${{ secrets.EC2_PUBLIC_IP }} <<EOF
-            docker pull ${{ secrets.ECR_REPO_URI }}:$IMAGE_TAG
+            docker pull ${{ secrets.ECR_REPO_URI }}/${{ secrets.ECR_REPO }}:${{ env.IMAGE_TAG }}
             docker stop node-app || true
             docker rm node-app || true
-            docker run -d --name node-app -p 3000:3000 ${{ secrets.ECR_REPO_URI }}:$IMAGE_TAG
+            docker run -d --name node-app -p 3000:3000 ${{ secrets.ECR_REPO_URI }}/${{ secrets.ECR_REPO }}:${{ env.IMAGE_TAG }}
           EOF
         env:
           EC2_SSH_KEY: ${{ secrets.EC2_SSH_KEY }}
