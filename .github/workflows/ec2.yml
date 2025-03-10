@@ -49,20 +49,20 @@ jobs:
 
   deploy:
     needs: build
-    runs-on: ubuntu-latest
+    runs-on:  [aws-ec2]
     environment: AWS
     steps:
       # SSH into EC2 and pull Docker image
       - name: Deploy Dockerized app to EC2
         run: |
           echo "Deploying to EC2"
-          echo "$EC2_SSH_KEY" > node.pem
-          chmod 600 node.pem
-          ssh -o StrictHostKeyChecking=no -i node.pem ubuntu@${{ secrets.EC2_PUBLIC_IP }} <<EOF
+          #echo "$EC2_SSH_KEY" > node.pem
+          #chmod 600 node.pem
+          # ssh -o StrictHostKeyChecking=no -i node.pem ubuntu@${{ secrets.EC2_PUBLIC_IP }} <<EOF
             docker pull ${{ secrets.ECR_REPO_URI }}/${{ secrets.ECR_REPO }}:${{ env.IMAGE_TAG }}
             docker stop node-app || true
             docker rm node-app || true
-            docker run -d --name node-app -p 3000:3000 ${{ secrets.ECR_REPO_URI }}/${{ secrets.ECR_REPO }}:${{ env.IMAGE_TAG }}
+            docker run -d --name node-app -p 80:80 ${{ secrets.ECR_REPO_URI }}/${{ secrets.ECR_REPO }}:${{ env.IMAGE_TAG }}
           EOF
         env:
           EC2_SSH_KEY: ${{ secrets.EC2_SSH_KEY }}
