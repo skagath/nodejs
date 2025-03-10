@@ -60,8 +60,6 @@ jobs:
           #chmod 600 node.pem
           # ssh -o StrictHostKeyChecking=no -i node.pem ubuntu@${{ secrets.EC2_PUBLIC_IP }} <<EOF
             docker pull ${{ secrets.ECR_REPO_URI }}/${{ secrets.ECR_REPO }}:${{ env.IMAGE_TAG }}
-            docker stop node-app || true
-            docker rm node-app || true
             docker run -d --name node-app -p 80:80 ${{ secrets.ECR_REPO_URI }}/${{ secrets.ECR_REPO }}:${{ env.IMAGE_TAG }}
           EOF
         env:
