@@ -8,6 +8,7 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    environment: AWS
     steps:
       # Checkout code from GitHub
       - name: Checkout code 
@@ -46,6 +47,7 @@ jobs:
   deploy:
     needs: build
     runs-on: ubuntu-latest
+    environment: AWS
     steps:
       # SSH into EC2 and pull Docker image
       - name: Deploy Dockerized app to EC2
