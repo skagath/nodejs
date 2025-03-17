@@ -10,7 +10,7 @@ on:
 env:
   AWS_REGION: us-east-1            
   ECR_REPOSITORY: myecr     
-  ECS_SERVICE: svc-node-app              
+  ECS_SERVICE: mysvc           
   ECS_CLUSTER: demo-cluster      
   ECS_TASK_DEFINITION: app-task.json
                                                
