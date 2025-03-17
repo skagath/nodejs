@@ -8,14 +8,13 @@ on:
     branches: [ "main" ]
 
 env:
-  AWS_REGION: us-east-1             
-  ECR_REPOSITORY: nodejs         
+  AWS_REGION: us-east-1            
+  ECR_REPOSITORY: myecr     
   ECS_SERVICE: svc-node-app              
-  ECS_CLUSTER: node-app             
-  ECS_TASK_DEFINITION: node1.json 
+  ECS_CLUSTER: myecr         
+  ECS_TASK_DEFINITION: app-task
                                                
-  CONTAINER_NAME: nodejs         
-                                              
+  CONTAINER_NAME: myecr                    
 
 permissions:
   contents: read
