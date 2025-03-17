@@ -12,7 +12,7 @@ env:
   ECR_REPOSITORY: myecr     
   ECS_SERVICE: svc-node-app              
   ECS_CLUSTER: myecr         
-  ECS_TASK_DEFINITION: app-task
+  ECS_TASK_DEFINITION: app-task.json
                                                
   CONTAINER_NAME: myecr                    
 
