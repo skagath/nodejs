@@ -1,0 +1,50 @@
+{
+    "taskDefinitionArn": "arn:aws:ecs:us-east-1:654654274227:task-definition/app-task:2",
+    "containerDefinitions": [
+        {
+            "name": "myecr",
+            "image": "654654274227.dkr.ecr.us-east-1.amazonaws.com/myecr:latest",
+            "cpu": 256,
+            "memory": 512,
+            "portMappings": [
+                {
+                    "containerPort": 80,
+                    "hostPort": 0,
+                    "protocol": "tcp"
+                }
+            ],
+            "essential": true,
+            "environment": [],
+            "mountPoints": [],
+            "volumesFrom": [],
+            "systemControls": []
+        }
+    ],
+    "family": "app-task",
+    "taskRoleArn": "arn:aws:iam::654654274227:role/ecsTaskRole",
+    "networkMode": "bridge",
+    "revision": 2,
+    "volumes": [],
+    "status": "ACTIVE",
+    "requiresAttributes": [
+        {
+            "name": "com.amazonaws.ecs.capability.ecr-auth"
+        },
+        {
+            "name": "com.amazonaws.ecs.capability.task-iam-role"
+        }
+    ],
+    "placementConstraints": [],
+    "compatibilities": [
+        "EXTERNAL",
+        "EC2"
+    ],
+    "requiresCompatibilities": [
+        "EC2"
+    ],
+    "cpu": "256",
+    "memory": "512",
+    "registeredAt": "2025-03-17T08:23:03.836Z",
+    "registeredBy": "arn:aws:iam::654654274227:user/cloud_user",
+    "tags": []
+}
