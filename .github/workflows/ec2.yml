@@ -56,9 +56,8 @@ jobs:
       - name: Deploy Dockerized app to EC2
         run: |
           echo "Deploying to EC2"
-          docker pull ${{ secrets.ECR_REPO_URI }}/${{ secrets.ECR_REPO }}:${{ env.IMAGE_TAG }}
-          docker run -d --name node-app -p 80:80 ${{ secrets.ECR_REPO_URI }}/${{ secrets.ECR_REPO }}:${{ env.IMAGE_TAG }}
-        
+          docker pull "${{ secrets.ECR_REPO_URI }}/${{ secrets.ECR_REPO }}:${{ env.IMAGE_TAG }}"
+          docker run -d --name node-app -p 80:80 "${{ secrets.ECR_REPO_URI }}/${{ secrets.ECR_REPO }}:${{ env.IMAGE_TAG }}"
         env:
           EC2_SSH_KEY: ${{ secrets.EC2_SSH_KEY }}
           EC2_PUBLIC_IP: ${{ secrets.EC2_PUBLIC_IP }}
