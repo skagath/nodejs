@@ -49,7 +49,7 @@ jobs:
 
   deploy:
     needs: build
-    runs-on:  self-hosted
+    runs-on: [self-hosted, Linux, X64]
   
     steps:
       # SSH into EC2 and pull Docker image
