@@ -56,4 +56,4 @@ jobs:
         run: |
           echo "Deploying to EC2"
           docker pull "${{ secrets.ECR_REPO_URI }}/${{ secrets.ECR_REPO }}:$IMAGE_TAG"
-          docker run -d --name node-app -p 80:80 "${{ secrets.ECR_REPO_URI }}/${{ secrets.ECR_REPO }}:$IMAGE_TAG"
+          docker run -d --name node-app -p 80:80 "${{ secrets.ECR_REPO_URI }}/${{ secrets.ECR_REPO }}:$IMAGE_TAG
