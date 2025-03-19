@@ -51,9 +51,25 @@ jobs:
     runs-on: [self-hosted, Linux, X64]
   
     steps:
-      # SSH into EC2 and pull Docker image
+      # Authenticate Docker with ECR
+      - name: Authenticate Docker with ECR
+        run: |
+          aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin ${{ secrets.ECR_REPO_URI }}
+
+      # Pull Docker image and restart container
       - name: Deploy Dockerized app to EC2
         run: |
           echo "Deploying to EC2"
+
+          # Stop and remove existing container if it exists
+          if [ "$(docker ps -q -f name=node-app)" ]; then
+              echo "Stopping existing container..."
+              docker stop node-app
+              docker rm node-app
+          fi
+
+          # Pull latest image
           docker pull ${{ secrets.ECR_REPO_URI }}/${{ secrets.ECR_REPO }}:$IMAGE_TAG
-          docker run -d --name node-app -p 80:80 "${{ secrets.ECR_REPO_URI }}/${{ secrets.ECR_REPO }}:$IMAGE_TAG
+
+          # Run container
+          docker run -d --name node-app -p 80:80 ${{ secrets.ECR_REPO_URI }}/${{ secrets.ECR_REPO }}:$IMAGE_TAG
