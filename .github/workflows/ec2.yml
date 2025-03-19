@@ -35,7 +35,7 @@ jobs:
       # Build Docker image
       - name: Build Docker image
         run: |
-          docker build -t ${{ secrets.ECR_REPO_URI }}/${{ secrets.ECR_REPO }}:$IMAGE_TAG" .
+          docker build -t ${{ secrets.ECR_REPO_URI }}/${{ secrets.ECR_REPO }}:$IMAGE_TAG .
 
       # Log in to Amazon ECR
       - name: Log in to Amazon ECR
