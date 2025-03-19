@@ -54,7 +54,6 @@ jobs:
       # Authenticate Docker with ECR
       - name: Authenticate Docker with ECR
         run: |
-         # aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin ${{ secrets.ECR_REPO_URI }}
           aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 654654353311.dkr.ecr.us-east-1.amazonaws.com
 
       # Pull Docker image and restart container
